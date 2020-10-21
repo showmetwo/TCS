@@ -30,7 +30,7 @@ jobs:
         with:
           repository: servian/TechChallengeApp
       
-      # Build source code
+      # Build go source code
       - name: Build source code with sh
         run: |
           chmod +x $GITHUB_WORKSPACE/build.sh
