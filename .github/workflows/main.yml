@@ -28,7 +28,7 @@ jobs:
       - name: Check out repo from 
         uses: actions/checkout@v2
         with:
-          repository: https://github.com/servian/TechChallengeApp.git
+          repository: servian/TechChallengeApp
       
       # Build source code
       - name: Build source code with sh
