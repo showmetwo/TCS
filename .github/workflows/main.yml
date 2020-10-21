@@ -25,7 +25,7 @@ jobs:
       - run: go version
           
       # Checks-out source code from repo
-      - name: Check out repo from 
+      - name: Check out repo from servian/TechChallengeApp
         uses: actions/checkout@v2
         with:
           repository: servian/TechChallengeApp
