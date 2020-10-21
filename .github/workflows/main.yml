@@ -17,9 +17,6 @@ jobs:
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-      - uses: actions/checkout@v2
-      
       # Setup go environment
       - name: Setup Go environment
         uses: actions/setup-go@v2.1.3
@@ -27,7 +24,21 @@ jobs:
       # Check go version
       - run: go version
           
-      - name: Azure Login
-        uses: Azure/login@v1
+      # Checks-out source code from repo
+      - name: Check out repo from 
+        uses: actions/checkout@v2
         with:
-          creds: ${{ secrets.AZURE_CREDENTIALS }}
+          repository: https://github.com/servian/TechChallengeApp.git
+      
+      # Build source code
+      - name: Build source code with sh
+        run: |
+          chmod +x $GITHUB_WORKSPACE/build.sh
+          $GITHUB_WORKSPACE/build.sh
+          
+      - name: Upload a Build Artifact
+        uses: actions/upload-artifact@v2.2.0
+        with:
+          path: |
+            dist
+            
