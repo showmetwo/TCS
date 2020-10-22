@@ -1,7 +1,4 @@
 #!/bin/bash
-github_owner='showmetwo'
-github_repo='TCS'
-github_token='AB7BLN7HVLKWREIWVLT5O427SEUTU'
 rg_location='australiaeast'
 application_name='techchallenge'
 rg_name='rg-'$application_name
