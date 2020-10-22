@@ -46,3 +46,6 @@ jobs:
           inlineScript: |
             chmod +x $GITHUB_WORKSPACE/10createinfra.azcli
             $GITHUB_WORKSPACE/10createinfra.azcli
+            
+      - name: Upload a Build Artifact
+        uses: actions/upload-artifact@v2.2.0
