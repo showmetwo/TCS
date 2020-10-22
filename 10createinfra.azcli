@@ -5,9 +5,6 @@ source $(dirname $0)/00variable.sh
 
 # Replace github with actual value
 sed -i "s/{vm_user}/$vm_user/g" init.yaml
-sed -i "s/{github_owner}/$github_owner/g" init.yaml
-sed -i "s/{github_repo}/$github_repo/g" init.yaml
-sed -i "s/{github_token}/$github_token/g" init.yaml
 cat init.yaml
 
 # Create vm with cloud init
