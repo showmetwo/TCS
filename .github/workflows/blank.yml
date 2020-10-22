@@ -1,4 +1,4 @@
-name: DeployInfra
+name: DeployInfrastructure
 
 on:
   workflow_dispatch:
@@ -28,11 +28,21 @@ jobs:
     steps:
       - uses: actions/checkout@v2
         
+      # Test user input
       - run: |
-          echo $github_owner $github_repo $github_token
+          echo $github_owner $github_repo
         
-
+      # Login to Azure with SP
       - name: Azure Login
         uses: Azure/login@v1
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
+      
+      # Provision infra
+      - name: Azure CLI Action
+        uses: Azure/cli@v1.0.0
+        with:
+          # Specify the script here
+          inlineScript: |
+            chmod +x $GITHUB_WORKSPACE/10createinfra.azcli
+            $GITHUB_WORKSPACE/10createinfra.azcli
