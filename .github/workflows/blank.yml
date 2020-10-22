@@ -26,12 +26,13 @@ jobs:
       - run: |
           echo "GitHub Owner: ${{ github.event.inputs.github_owner }}"
           echo "GitHub Repo: ${{ github.event.inputs.github_repo }}"
-          github_owner=${{ github.event.inputs.github_owner }}
-          github_repo=${{ github.event.inputs.github_repo }}
-          github_token=${{ github.event.inputs.github_token }}
       - run: |
           echo $github_owner $github_repo $github_token
-        
+        env:
+          github_owner: ${{ github.event.inputs.github_owner }}
+          github_repo: ${{ github.event.inputs.github_repo }}
+          github_token: ${{ github.event.inputs.github_token }}
+
       - name: Azure Login
         uses: Azure/login@v1
         with:
