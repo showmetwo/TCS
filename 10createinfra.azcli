@@ -1,6 +1,17 @@
 #!/bin/bash
 source $(dirname $0)/00variable.sh
 
+# Create NIC
+for i in `seq 1 2`; do
+    az network nic create \
+        --resource-group $rg_name \
+        --name $nic_name$i \
+        --vnet-name $vnet_name \
+        --subnet $subnet_name \
+        --network-security-group $nsg_name \
+        --lb-name $lb_name \
+        --lb-address-pools $lb_backendpool_name
+done
 
 # Replace github with actual value
 sed -i "s/{vm_user}/$vm_user/g" init.yaml
