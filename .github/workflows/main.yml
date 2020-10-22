@@ -38,7 +38,7 @@ jobs:
       - name: Upload a Build Artifact
         uses: actions/upload-artifact@v2.2.0
         with:
-          name: application.tar.gz
+          name: application
           path: |
             dist
   deploy:
