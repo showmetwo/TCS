@@ -1,0 +1,13 @@
+#!/bin/bash
+source $(dirname $0)/00variable.sh
+
+# Create resource group
+az group create --name $rg_name -l $rg_location
+
+# Create azure credencial, you should copy json file into GitHub Secrets
+sp_flag=$(az ad sp list --filter "displayname eq '$sp_name'")
+if [[ $sp_flag == "[]" ]]
+then
+	subscription_id=$(az account show --query id -o tsv)
+	az ad sp create-for-rbac --name $sp_name --sdk-auth --role contributor --scopes /subscriptions/$subscription_id/resourceGroups/$rg_name
+fi
