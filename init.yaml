@@ -1,0 +1,14 @@
+#cloud-config
+package_upgrade: true
+runcmd:
+  - add-apt-repository ppa:longsleep/golang-backports -y
+  - apt update
+  - apt install golang-go -y
+  - mkdir actions-runner
+  - chown -R {vm_user}:{vm_user} actions-runner/
+  - cd actions-runner
+  - sudo -u {vm_user} curl -O -L https://github.com/actions/runner/releases/download/v2.273.5/actions-runner-linux-x64-2.273.5.tar.gz
+  - sudo -u {vm_user} tar xzf ./actions-runner-linux-x64-2.273.5.tar.gz
+  - sudo -u {vm_user} ./config.sh --url https://github.com/{github_owner}/{github_repo} --token {github_token} --work _work --unattended --replace
+  - ./svc.sh install
+  - ./svc.sh start
