@@ -19,10 +19,15 @@ jobs:
       - run: go version
           
       # Checks-out source code from repo
-      - name: Check out repo from servian/TechChallengeApp
+      - name: Check out repo from showmetwo/TechChallengeApp
         uses: actions/checkout@v2
         with:
           repository: showmetwo/TechChallengeApp
+      
+      - name: Check out repo from showmetwo/TCS
+        uses: actions/checkout@v2
+        with:
+          repository: showmetwo/TCS
        
       # Login to Azure with SP
       - name: Azure Login
