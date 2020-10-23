@@ -23,25 +23,23 @@ jobs:
         uses: actions/checkout@v2
         with:
           repository: showmetwo/TechChallengeApp
+          path: techchallengeapp
       
       # Build go source code
       - name: Build source code with sh
         run: |
-          chmod +x $GITHUB_WORKSPACE/build.sh
-          $GITHUB_WORKSPACE/build.sh
+          chmod +x $GITHUB_WORKSPACE/techchallengeapp/build.sh
+          $GITHUB_WORKSPACE/techchallengeapp/build.sh
       
       - run: |
-          mkdir /temp
-          cp -a $GITHUB_WORKSPACE/. /temp/
           pwd
           ls -l
-          ls /temp
       
       - name: Upload a Build Artifact
         uses: actions/upload-artifact@v2.2.0
         with:
           name: application
           path: |
-            dist
+            techchallengeapp/dist
   
   
