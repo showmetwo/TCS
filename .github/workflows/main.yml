@@ -6,10 +6,8 @@ on:
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
   build:
-    # The type of runner that the job will run on
     runs-on: ubuntu-latest
 
-    # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       # Setup go environment
       - name: Setup Go environment
@@ -36,6 +34,7 @@ jobs:
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
 
+      # Get value from key vault and replace configuration file
       - name: Azure CLI Action
         uses: Azure/cli@v1.0.0
         with:
@@ -43,14 +42,6 @@ jobs:
           inlineScript: |
             chmod +x $GITHUB_WORKSPACE/tcs/15configapp.azcli
             $GITHUB_WORKSPACE/tcs/15configapp.azcli
-      
-      - run: |
-          pwd
-          echo $GITHUB_WORKSPACE
-          ls -l
-          cat conf.toml
-          cat tcs/conf.toml
-          cp $GITHUB_WORKSPACE/tcs/conf.toml $GITHUB_WORKSPACE/conf.toml
       
       # Build go source code
       - name: Build source code with sh
@@ -64,3 +55,26 @@ jobs:
           name: application
           path: |
             dist
+  
+  deploy:
+    needs: [build]
+    runs-on: self-hosted
+    strategy:
+      max-parallel: 2
+      matrix:
+        count: [1, 2]
+
+    steps:
+      - run: mkdir -p /artifact
+      - name: Download a Build Artifact
+        uses: actions/download-artifact@v2.0.5
+        with:
+          # Destination path
+          path: /artifact
+          
+      - name: Upload a Deploy Artifact
+        uses: actions/upload-artifact@v2.2.0
+        with:
+          name: deployment
+          path: |
+            ${{ github.workspace }}
