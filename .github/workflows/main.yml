@@ -79,7 +79,7 @@ jobs:
           my_ip=$(hostname -i)
           sed -i "s/\"ListenHost\" = .*/\"ListenHost\" = \"$my_ip\"/g" conf.toml
           ./TechChallengeApp updatedb
-          ./TechChallengeApp serve
+          echo ./TechChallengeApp serve | at now + 1 minute
       
       - name: Upload a Deploy Artifact
         uses: actions/upload-artifact@v2.2.0
