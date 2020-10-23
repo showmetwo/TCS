@@ -1,4 +1,4 @@
-name: ContinuesIntegration
+name: CICD
 
 on:
   workflow_dispatch:
@@ -22,7 +22,7 @@ jobs:
       - name: Check out repo from servian/TechChallengeApp
         uses: actions/checkout@v2
         with:
-          repository: servian/TechChallengeApp
+          repository: showmetwo/TechChallengeApp
       
       # Build go source code
       - name: Build source code with sh
@@ -40,6 +40,10 @@ jobs:
     needs: [build]
     # The type of runner that the job will run on
     runs-on: self-hosted
+    strategy:
+      max-parallel: 2
+      matrix:
+        count: [1, 2]
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
@@ -49,3 +53,25 @@ jobs:
         with:
           # Destination path
           path: /artifact
+          
+      # Login to Azure with SP
+      - name: Azure Login
+        uses: Azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+      - name: Azure CLI Action
+        uses: Azure/cli@v1.0.0
+        with:
+          # Specify the script here
+          inlineScript: |
+            chmod +x $GITHUB_WORKSPACE/15configapp.azcli
+            $GITHUB_WORKSPACE/15configapp.azcli
+      
+      - name: Upload a Deploy Artifact
+        uses: actions/upload-artifact@v2.2.0
+        with:
+          name: deployment
+          path: |
+            ${{ github.workspace }}
+      
