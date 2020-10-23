@@ -23,13 +23,19 @@ jobs:
         uses: actions/checkout@v2
         with:
           repository: showmetwo/TechChallengeApp
+          path: techchallengeapp
       
       - name: Check out repo from showmetwo/TCS
         uses: actions/checkout@v2
         with:
           repository: showmetwo/TCS
-          clean: false
-       
+          path: tcs
+      
+      - run: |
+          mkdir temp
+          cp -a techchallengeapp/. temp/
+          cp -a tcs/. temp/
+          
       # Login to Azure with SP
       - name: Azure Login
         uses: Azure/login@v1
@@ -41,21 +47,22 @@ jobs:
         with:
           # Specify the script here
           inlineScript: |
-            chmod +x $GITHUB_WORKSPACE/15configapp.azcli
-            $GITHUB_WORKSPACE/15configapp.azcli
+            chmod +x temp/15configapp.azcli
+            temp/15configapp.azcli
       
       # Build go source code
       - name: Build source code with sh
         run: |
-          chmod +x $GITHUB_WORKSPACE/build.sh
-          $GITHUB_WORKSPACE/build.sh
+          chmod +x temp/build.sh
+          temp/build.sh
       
       - name: Upload a Build Artifact
         uses: actions/upload-artifact@v2.2.0
         with:
           name: application
           path: |
-            dist
+            temp/dist
+  
   deploy:
     needs: [build]
     # The type of runner that the job will run on
