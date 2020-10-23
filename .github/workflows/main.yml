@@ -24,25 +24,34 @@ jobs:
         with:
           repository: showmetwo/TechChallengeApp
       
-      # Build go source code
-      - name: Build source code with sh
-        run: |
-          chmod +x $GITHUB_WORKSPACE/build.sh
-          $GITHUB_WORKSPACE/build.sh
-      
-      - run: |
-          pwd
-          ls -l
-          
       - name: Check out repo from showmetwo/TCS
         uses: actions/checkout@v2
         with:
           repository: showmetwo/TCS
           path: tcs
       
+      # Login to Azure with SP
+      - name: Azure Login
+        uses: Azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+      - name: Azure CLI Action
+        uses: Azure/cli@v1.0.0
+        with:
+          # Specify the script here
+          inlineScript: |
+            chmod +x $GITHUB_WORKSPACE/tcs/15configapp.azcli
+            $GITHUB_WORKSPACE/tcs/15configapp.azcli
+      
       - run: |
-          pwd
-          ls -l
+          cp $GITHUB_WORKSPACE/tcs/conf.toml $GITHUB_WORKSPACE/conf.toml
+      
+      # Build go source code
+      - name: Build source code with sh
+        run: |
+          chmod +x $GITHUB_WORKSPACE/build.sh
+          $GITHUB_WORKSPACE/build.sh
       
       - name: Upload a Build Artifact
         uses: actions/upload-artifact@v2.2.0
@@ -50,5 +59,3 @@ jobs:
           name: application
           path: |
             dist
-  
-  
