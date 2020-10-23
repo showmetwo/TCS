@@ -29,10 +29,13 @@ jobs:
       # Build go source code
       - name: Build source code with sh
         run: |
-          chmod +x build.sh
-          build.sh
+          pwd
+          chmod +x $GITHUB_WORKSPACE/build.sh
+          $GITHUB_WORKSPACE/build.sh
       
-      - run: ls -l
+      - run: |
+          pwd
+          ls -l
       
       - name: Upload a Build Artifact
         uses: actions/upload-artifact@v2.2.0
