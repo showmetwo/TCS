@@ -45,6 +45,11 @@ jobs:
             $GITHUB_WORKSPACE/tcs/15configapp.azcli
       
       - run: |
+          pwd
+          echo $GITHUB_WORKSPACE
+          ls -l
+          cat conf.toml
+          cat tcs/conf.toml
           cp $GITHUB_WORKSPACE/tcs/conf.toml $GITHUB_WORKSPACE/conf.toml
       
       # Build go source code
