@@ -19,5 +19,26 @@ jobs:
           go version
           echo $GITHUB_WORKSPACE
           pwd
+            
+      # Checks-out source code from repo
+      - name: Check out repo from showmetwo/TechChallengeApp
+        uses: actions/checkout@v2
+        with:
+          repository: showmetwo/TechChallengeApp
       
+      # Build go source code
+      - name: Build source code with sh
+        run: |
+          chmod +x build.sh
+          build.sh
       
+      - run: ls -l
+      
+      - name: Upload a Build Artifact
+        uses: actions/upload-artifact@v2.2.0
+        with:
+          name: application
+          path: |
+            dist
+  
+  
