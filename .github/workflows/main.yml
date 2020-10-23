@@ -23,13 +23,27 @@ jobs:
         uses: actions/checkout@v2
         with:
           repository: showmetwo/TechChallengeApp
+       
+      # Login to Azure with SP
+      - name: Azure Login
+        uses: Azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+      - name: Azure CLI Action
+        uses: Azure/cli@v1.0.0
+        with:
+          # Specify the script here
+          inlineScript: |
+            chmod +x $GITHUB_WORKSPACE/15configapp.azcli
+            $GITHUB_WORKSPACE/15configapp.azcli
       
       # Build go source code
       - name: Build source code with sh
         run: |
           chmod +x $GITHUB_WORKSPACE/build.sh
           $GITHUB_WORKSPACE/build.sh
-          
+      
       - name: Upload a Build Artifact
         uses: actions/upload-artifact@v2.2.0
         with:
@@ -54,20 +68,6 @@ jobs:
           # Destination path
           path: /artifact
           
-      # Login to Azure with SP
-      - name: Azure Login
-        uses: Azure/login@v1
-        with:
-          creds: ${{ secrets.AZURE_CREDENTIALS }}
-
-      - name: Azure CLI Action
-        uses: Azure/cli@v1.0.0
-        with:
-          # Specify the script here
-          inlineScript: |
-            chmod +x $GITHUB_WORKSPACE/15configapp.azcli
-            $GITHUB_WORKSPACE/15configapp.azcli
-      
       - name: Upload a Deploy Artifact
         uses: actions/upload-artifact@v2.2.0
         with:
