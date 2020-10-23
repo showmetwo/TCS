@@ -9,4 +9,12 @@ kv_db_host=az keyvault secret show --vault-name $kv_name --name "DbHost"
 kv_app_listen_host=az keyvault secret show --vault-name $kv_name --name "ListenHost"
 kv_app_listen_port=az keyvault secret show --vault-name $kv_name --name "ListenPort"
 
-echo $kv_db_user $kv_db_password $kv_db_name > test.config
+cat << EOF > conf.toml
+"DbUser" = "$kv_db_user"
+"DbPassword" = "$kv_db_password"
+"DbName" = "$kv_db_name"
+"DbPort" = "$kv_db_port"
+"DbHost" = "$kv_db_host"
+"ListenHost" = "$kv_app_listen_host"
+"ListenPort" = "$kv_app_listen_port"
+EOF
