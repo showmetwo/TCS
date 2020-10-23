@@ -1,14 +1,15 @@
 #!/bin/bash
 source $(dirname $0)/00variable.sh
 
-kv_db_user=$(az keyvault secret show --vault-name $kv_name --name "DbUser")
-kv_db_password=$(az keyvault secret show --vault-name $kv_name --name "DbPassword") 
-kv_db_name=$(az keyvault secret show --vault-name $kv_name --name "DbName")
-kv_db_port=$(az keyvault secret show --vault-name $kv_name --name "DbPort")
-kv_db_host=$(az keyvault secret show --vault-name $kv_name --name "DbHost") 
-kv_app_listen_host=$(az keyvault secret show --vault-name $kv_name --name "ListenHost")
-kv_app_listen_port=$(az keyvault secret show --vault-name $kv_name --name "ListenPort")
+kv_db_user=$(az keyvault secret show --vault-name $kv_name --name "DbUser" --query 'value' -o tsv)
+kv_db_password=$(az keyvault secret show --vault-name $kv_name --name "DbPassword" --query 'value' -o tsv) 
+kv_db_name=$(az keyvault secret show --vault-name $kv_name --name "DbName" --query 'value' -o tsv)
+kv_db_port=$(az keyvault secret show --vault-name $kv_name --name "DbPort" --query 'value' -o tsv)
+kv_db_host=$(az keyvault secret show --vault-name $kv_name --name "DbHost" --query 'value' -o tsv) 
+kv_app_listen_host=$(az keyvault secret show --vault-name $kv_name --name "ListenHost" --query 'value' -o tsv)
+kv_app_listen_port=$(az keyvault secret show --vault-name $kv_name --name "ListenPort" --query 'value' -o tsv)
 
+# Replace with actual value. When execute azure cli in GitHub, azure cli container will mount to working directory
 cat << EOF > conf.toml
 "DbUser" = "$kv_db_user"
 "DbPassword" = "$kv_db_password"
