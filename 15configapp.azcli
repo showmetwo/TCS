@@ -1,0 +1,12 @@
+#!/bin/bash
+source $(dirname $0)/00variable.sh
+
+kv_db_user=az keyvault secret show --vault-name $kv_name --name "DbUser"
+kv_db_password=az keyvault secret show --vault-name $kv_name --name "DbPassword" 
+kv_db_name=az keyvault secret show --vault-name $kv_name --name "DbName"
+kv_db_port=az keyvault secret show --vault-name $kv_name --name "DbPort" 
+kv_db_host=az keyvault secret show --vault-name $kv_name --name "DbHost" 
+kv_app_listen_host=az keyvault secret show --vault-name $kv_name --name "ListenHost"
+kv_app_listen_port=az keyvault secret show --vault-name $kv_name --name "ListenPort"
+
+echo $kv_db_user $kv_db_password $kv_db_name > test.config
