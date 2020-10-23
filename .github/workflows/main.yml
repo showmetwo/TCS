@@ -16,7 +16,9 @@ jobs:
         uses: actions/setup-go@v2.1.3
 
       # Check go version
-      - run: go version
+      - run: |
+          go version
+          mkdir temp
           
       # Checks-out source code from repo
       - name: Check out repo from showmetwo/TechChallengeApp
@@ -25,16 +27,15 @@ jobs:
           repository: showmetwo/TechChallengeApp
           path: techchallengeapp
       
+      - run: cp -a techchallengeapp/. temp/
+      
       - name: Check out repo from showmetwo/TCS
         uses: actions/checkout@v2
         with:
           repository: showmetwo/TCS
           path: tcs
       
-      - run: |
-          mkdir temp
-          cp -a techchallengeapp/. temp/
-          cp -a tcs/. temp/
+      - run: cp -a tcs/. temp/
           
       # Login to Azure with SP
       - name: Azure Login
