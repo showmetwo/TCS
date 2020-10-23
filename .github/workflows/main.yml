@@ -71,7 +71,11 @@ jobs:
         with:
           # Destination path
           path: /artifact
+      
+      - run: |
+          chmod +x /artifact/application/TechChallengeApp
           
+      
       - name: Upload a Deploy Artifact
         uses: actions/upload-artifact@v2.2.0
         with:
