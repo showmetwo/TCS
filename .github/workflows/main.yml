@@ -23,13 +23,22 @@ jobs:
         uses: actions/checkout@v2
         with:
           repository: showmetwo/TechChallengeApp
-          path: techchallengeapp
       
       # Build go source code
       - name: Build source code with sh
         run: |
-          chmod +x $GITHUB_WORKSPACE/techchallengeapp/build.sh
-          $GITHUB_WORKSPACE/techchallengeapp/build.sh
+          chmod +x $GITHUB_WORKSPACE/build.sh
+          $GITHUB_WORKSPACE/build.sh
+      
+      - run: |
+          pwd
+          ls -l
+          
+      - name: Check out repo from showmetwo/TCS
+        uses: actions/checkout@v2
+        with:
+          repository: showmetwo/TCS
+          path: tcs
       
       - run: |
           pwd
@@ -40,6 +49,6 @@ jobs:
         with:
           name: application
           path: |
-            techchallengeapp/dist
+            dist
   
   
